@@ -18,15 +18,21 @@ namespace NewTrashCol.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Employee> Employees { get; set; }
 
+        //roles on registration page for each role
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<IdentityRole>()
-                .HasData(new IdentityRole
+                .HasData(
+                new IdentityRole
                 {
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
+                    Name = "Customer",
+                    NormalizedName = "CUSTOMER"
+                }, new IdentityRole
+                {
+                    Name = "Employee",
+                    NormalizedName = "EMPLOYEE"
                 }
                 );
         }

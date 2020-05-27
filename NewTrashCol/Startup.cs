@@ -47,7 +47,7 @@ namespace NewTrashCol
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddDbContext<NewTrashColContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("NewTrashColContext")));
         }
 

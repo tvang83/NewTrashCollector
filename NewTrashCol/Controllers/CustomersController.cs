@@ -13,9 +13,9 @@ namespace NewTrashCol.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly NewTrashColContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CustomersController(NewTrashColContext context)
+        public CustomersController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace NewTrashCol.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var newTrashColContext = _context.Customer.Include(c => c.IdentityUser);
+            var newTrashColContext = _context.Customers.Include(c => c.IdentityUser);
             return View(await newTrashColContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace NewTrashCol.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
+            var customer = await _context.Customers
                 .Include(c => c.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Name == id);
             if (customer == null)
@@ -78,7 +78,7 @@ namespace NewTrashCol.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -131,7 +131,7 @@ namespace NewTrashCol.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
+            var customer = await _context.Customers
                 .Include(c => c.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Name == id);
             if (customer == null)
@@ -147,15 +147,15 @@ namespace NewTrashCol.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var customer = await _context.Customer.FindAsync(id);
-            _context.Customer.Remove(customer);
+            var customer = await _context.Customers.FindAsync(id);
+            _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerExists(string id)
         {
-            return _context.Customer.Any(e => e.Name == id);
+            return _context.Customers.Any(e => e.Name == id);
         }
     }
 }

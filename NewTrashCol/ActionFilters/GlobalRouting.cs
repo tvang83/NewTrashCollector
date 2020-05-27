@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace NewTrashCol.ActionFilters
 {
+    //routing class
     public class GlobalRouting : IActionFilter
     {
         private readonly ClaimsPrincipal _claimsPrincipal;
