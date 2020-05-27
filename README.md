@@ -1,0 +1,2 @@
+# NewTrashCollector
+Trash Collector
