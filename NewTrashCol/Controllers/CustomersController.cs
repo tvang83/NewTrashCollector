@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +24,27 @@ namespace NewTrashCol.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var newTrashColContext = _context.Customers.Include(c => c.IdentityUser);
-            return View(await newTrashColContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerInDb = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
+            if (customerInDb == null)
+            {
+                return RedirectToAction("Register", "Identity/Account");
+            }
+            else if (customerInDb == null)
+            {
+                return RedirectToAction("Create", "Customers");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Customers");
+            }
+
+            //var newTrashColContext = _context.Customers.Include(c => c.IdentityUser);
+            //return View(await newTrashColContext.ToListAsync());
+
+            //customer.IdentityUserId = userId;  Create
+            //_context.Add(customer);
+            //_context.SaveChanges();
         }
 
         // GET: Customers/Details/5
